@@ -26,23 +26,43 @@
         </v-flex>
       </v-card>
     </v-flex>
+    <v-snackbar v-model="status" color="error" :timeout="3000" :bottom="true" :multi-line="true">
+      {{ statusMessage }}
+      <v-btn flat @click="status = false">Close</v-btn>
+    </v-snackbar>
   </v-layout>
 </template>
 
 <script>
+import firebase from "firebase";
+
 export default {
   name: "signIn",
   data() {
     return {
       email: "",
       password: "",
-      value: true
+      value: true,
+      status: false,
+      statusMessage: ""
     };
   },
   methods: {
     signIn() {
       if (this.$refs.form.validate()) {
-        // redirect to upload
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then(user => {
+            if (user) {
+              this.$router.push("/upload");
+              this.status = false;
+            }
+          })
+          .catch(e => {
+            this.status = true;
+            this.statusMessage = e.message;
+          });
       }
     }
   }
