@@ -16,7 +16,7 @@
               v-model="password"
               :rules="[ v => !!v || 'Password required']"
               :append-icon="value ? 'visibility' : 'visibility_off'"
-              :append-icon-cb="() => (value = !value)"
+              @click:append="() => (value = !value)"
               :type="value ? 'password' : 'text'"
             ></v-text-field>
             <v-layout justify-end mt-1 mb-1>
