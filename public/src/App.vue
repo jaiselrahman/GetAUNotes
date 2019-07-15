@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from "@/firebase";
 
 import UploadBtn from "./components/UploadBtn.vue";
 
