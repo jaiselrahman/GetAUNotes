@@ -5,8 +5,14 @@
     <v-btn round small color="primary" @click="signOut()">SignOut</v-btn>
     <br>
     <br>
-    <input style="background:blue" ref="inputUpload" type="file" @change="onFileSelected">
-    <v-btn color="primary" @click="$refs.inputUpload.click()">Selected File</v-btn>
+    <select-group @group-selected="onGroupSelected"></select-group>
+    <v-layout justify-center column>
+      <input ref="inputUpload" type="file" @change="onFileSelected" v-show="false" multiple>
+      <v-flex md8 text-xs-center>
+        <v-btn color="primary" full-width @click="$refs.inputUpload.click()">Select Files</v-btn>
+      </v-flex>
+    </v-layout>
+
     <br>
     <br>
     <v-list v-show="files.length > 0">
@@ -23,15 +29,18 @@
 <script>
 import firebase from "@/firebase";
 import FileUploader from "@/components/FileUploader";
+import SelectGroup from "@/components/SelectGroup";
 
 export default {
   name: "upload",
   components: {
-    FileUploader
+    FileUploader,
+    SelectGroup
   },
   data() {
     return {
-      files: []
+      files: [],
+      group: String
     };
   },
   methods: {
@@ -45,6 +54,9 @@ export default {
     },
     onFileSelected(e) {
       this.files = [...this.files, ...e.target.files];
+    },
+    onGroupSelected(g) {
+      console.log(g);
     }
   }
 };
