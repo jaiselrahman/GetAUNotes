@@ -1,12 +1,26 @@
 <template>
-  <v-layout justify-center align-center column>
-    <img alt="Vue logo" src="../assets/logo.png">
-    <h2>Welcome to Your Vue.js App</h2>
-  </v-layout>
+  <group-list :groups="groups"></group-list>
 </template>
 
 <script>
+import GroupService from "@/data/GroupService";
+
+import GroupList from "@/components/GroupList";
+
 export default {
-  name: "home"
+  name: "home",
+  components: {
+    GroupList
+  },
+  data() {
+    return {
+      groups: []
+    };
+  },
+  mounted() {
+    GroupService.getDepartments().then(
+      departments => (this.groups = departments)
+    );
+  }
 };
 </script>
