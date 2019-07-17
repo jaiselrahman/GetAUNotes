@@ -52,11 +52,11 @@ export default {
         SUCCESS: "success",
         FAILED: "failed"
       },
-      status: ''
+      status: ""
     };
   },
   mounted() {
-    this.status = this.UPLOAD_STATE.UPLOADING
+    this.status = this.UPLOAD_STATE.UPLOADING;
     const filePath = this.path + "/" + this.file.name;
     this.uploadTask = firebase
       .storage()

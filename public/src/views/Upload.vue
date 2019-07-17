@@ -9,19 +9,19 @@
     <v-layout justify-center column>
       <input ref="inputUpload" type="file" @change="onFileSelected" v-show="false" multiple>
       <v-flex md8 text-xs-center>
-        <v-btn color="primary" full-width @click="$refs.inputUpload.click()">Select Files</v-btn>
+        <v-btn
+          color="primary"
+          full-width
+          @click="$refs.inputUpload.click()"
+          :disabled="!path"
+        >Select Files</v-btn>
       </v-flex>
     </v-layout>
 
     <br>
     <br>
     <v-list v-show="files.length > 0">
-      <file-uploader
-        v-for="file in files"
-        :key="file.name"
-        :file="file"
-        path="/department/rev/year/sub"
-      />
+      <file-uploader v-for="file in files" :key="file.name" :file="file" :path="path"/>
     </v-list>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       files: [],
-      group: String
+      path: null
     };
   },
   methods: {
@@ -55,8 +55,14 @@ export default {
     onFileSelected(e) {
       this.files = [...this.files, ...e.target.files];
     },
-    onGroupSelected(g) {
-      console.log(g);
+    onGroupSelected(grp) {
+      if (grp === null) {
+        this.path = null;
+      } else {
+        this.path = `${grp.department}/${grp.year}/${grp.regulation}/${
+          grp.subject
+        }`;
+      }
     }
   }
 };

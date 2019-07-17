@@ -65,6 +65,7 @@ export default {
       this.year = null;
       this.regulation = null;
       this.subject = null;
+      this.$emit("group-selected", null);
 
       GroupService.getYears(this.department.id).then(
         years => (this.years = years)
@@ -73,6 +74,7 @@ export default {
     onYearSelected() {
       this.regulation = null;
       this.subject = null;
+      this.$emit("group-selected", null);
 
       GroupService.getRegulations().then(
         regulations => (this.regulations = regulations)
@@ -80,6 +82,7 @@ export default {
     },
     onRegulationSelected() {
       this.subject = null;
+      this.$emit("group-selected", null);
 
       GroupService.getSubjects(
         this.department.id,
