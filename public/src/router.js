@@ -16,6 +16,11 @@ const router = new Router({
       component: Home
     },
     {
+      path: '/n/:dep/:year?/:reg?/:sub?',
+      name: 'groups',
+      component: Home
+    },
+    {
       path: '/sign-in',
       name: 'sign-in',
       component: () => import('./views/SignIn.vue')

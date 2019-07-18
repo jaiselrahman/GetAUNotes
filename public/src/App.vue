@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link>&nbsp;
       <upload-btn :isSignedIn="isSignedIn"/>
     </div>
-    <router-view/>
+    <router-view :key="$route.path"/>
   </v-app>
 </template>
 
