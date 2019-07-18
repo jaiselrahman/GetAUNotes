@@ -1,7 +1,8 @@
 <template>
   <v-layout justify-center>
-    <v-flex xs10 md6 lg4>
+    <v-flex xs10 md6 lg4 ma-5>
       <v-card>
+        <v-card-title large primary-title>Staff SignIn</v-card-title>
         <v-flex pa-3>
           <v-form @submit.prevent="signIn()" ref="form">
             <v-text-field
