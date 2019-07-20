@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import firebase from "@/firebase";
+import NoteService from "@/data/NoteService";
 
 export default {
   name: "FileUpoader",
   props: {
-    path: String,
+    group: Object,
     file: [File, Blob]
   },
   data() {
@@ -57,15 +57,10 @@ export default {
   },
   mounted() {
     this.status = this.UPLOAD_STATE.UPLOADING;
-    const filePath = this.path + "/" + this.file.name;
-    this.uploadTask = firebase
-      .storage()
-      .ref()
-      .child(filePath)
-      .put(this.file);
 
-    this.uploadTask.on(
-      "state_changed",
+    this.uploadTask = NoteService.uploadNotes(
+      this.file,
+      this.group,
       s => {
         this.progress = (s.bytesTransferred / s.totalBytes) * 100;
       },
@@ -74,7 +69,6 @@ export default {
           this.status = this.UPLOAD_STATE.CANCELLED;
         } else {
           this.status = this.UPLOAD_STATE.FAILED;
-          console.log(e);
         }
       },
       () => {

@@ -4,29 +4,34 @@
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-layout>
     <v-layout justify-center>
-      <v-flex xs12 sm8 md6 v-show="!loading && (!groups || groups.length == 0)">
+      <v-flex xs12 sm8 md6 v-show="!loading && (!groups || groups.length == 0) && (!notes || notes.length == 0)">
         <v-card text-xs-center>
           <v-card-title primary-title>Nothing Found!</v-card-title>
         </v-card>
       </v-flex>
     </v-layout>
-    <group-list :groups="groups" :base-path="basePath"></group-list>
+    <group-list :groups="groups" :base-path="basePath" v-if="$route.params.sub == null"></group-list>
+    <notes-list :notes="notes" v-else></notes-list>
   </v-container>
 </template>
 
 <script>
 import GroupService from "@/data/GroupService";
+import NoteService from "@/data/NoteService";
 
 import GroupList from "@/components/GroupList";
+import NotesList from "@/components/NotesList";
 
 export default {
   name: "home",
   components: {
-    GroupList
+    GroupList,
+    NotesList
   },
   data() {
     return {
       groups: null,
+      notes: null,
       basePath: "/n",
       loading: false
     };
@@ -48,8 +53,19 @@ export default {
       } else if (group.sub == null) {
         load = GroupService.getSubjects;
         this.basePath = `/n/${group.dep}/${group.year}/${group.reg}`;
+      } else {
+        let g= {
+          department: group.dep,
+          regulation: group.reg,
+          year: group.year,
+          subject: group.sub,
+        }
+        return NoteService.getNotes(g).then(notes => {
+          this.notes = notes;
+          this.loading = false;
+        });
       }
-      return load(group.dep, group.year, group.reg, group.sub).then(groups => {
+      return load(group.dep, group.year, group.reg).then(groups => {
         this.groups = groups;
         this.loading = false;
       });

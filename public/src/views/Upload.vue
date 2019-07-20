@@ -9,13 +9,13 @@
           color="primary"
           full-width
           @click="$refs.inputUpload.click()"
-          :disabled="!path"
+          :disabled="!group"
         >Select Files</v-btn>
       </v-flex>
     </v-layout>
     <br>
     <v-list v-show="files.length > 0">
-      <file-uploader v-for="file in files" :key="file.name" :file="file" :path="path"/>
+      <file-uploader v-for="file in files" :key="file.name" :file="file" :group="group"/>
     </v-list>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       files: [],
-      path: null
+      group: null
     };
   },
   methods: {
@@ -50,14 +50,8 @@ export default {
     onFileSelected(e) {
       this.files = [...this.files, ...e.target.files];
     },
-    onGroupSelected(grp) {
-      if (grp === null) {
-        this.path = null;
-      } else {
-        this.path = `${grp.department}/${grp.year}/${grp.regulation}/${
-          grp.subject
-        }`;
-      }
+    onGroupSelected(group) {
+      this.group = group;
     }
   }
 };
