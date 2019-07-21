@@ -24,7 +24,7 @@
         </v-toolbar-items>
       </v-toolbar>
     </div>
-    <router-view :key="$route.path"/>
+    <router-view :is-signed-in="isSignedIn" :key="$route.path"/>
   </v-app>
 </template>
 

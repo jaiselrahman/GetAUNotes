@@ -4,14 +4,19 @@
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-layout>
     <v-layout justify-center>
-      <v-flex xs12 sm8 md6 v-show="!loading && (!groups || groups.length == 0) && (!notes || notes.length == 0)">
+      <v-flex
+        xs12
+        sm8
+        md6
+        v-show="!loading && (!groups || groups.length == 0) && (!notes || notes.length == 0)"
+      >
         <v-card text-xs-center>
           <v-card-title primary-title>Nothing Found!</v-card-title>
         </v-card>
       </v-flex>
     </v-layout>
     <group-list :groups="groups" :base-path="basePath" v-if="$route.params.sub == null"></group-list>
-    <notes-list :notes="notes" v-else></notes-list>
+    <notes-list :notes="notes" v-else :show-delete="isSignedIn" @delete="deleteNote"></notes-list>
   </v-container>
 </template>
 
@@ -27,6 +32,9 @@ export default {
   components: {
     GroupList,
     NotesList
+  },
+  props: {
+    isSignedIn: Boolean
   },
   data() {
     return {
@@ -54,12 +62,12 @@ export default {
         load = GroupService.getSubjects;
         this.basePath = `/n/${group.dep}/${group.year}/${group.reg}`;
       } else {
-        let g= {
+        let g = {
           department: group.dep,
           regulation: group.reg,
           year: group.year,
-          subject: group.sub,
-        }
+          subject: group.sub
+        };
         return NoteService.getNotes(g).then(notes => {
           this.notes = notes;
           this.loading = false;
@@ -69,6 +77,15 @@ export default {
         this.groups = groups;
         this.loading = false;
       });
+    },
+    deleteNote(note) {
+      NoteService.deleteNote(note)
+        .then(() => {
+          this.notes = this.notes.filter(n => n.id !== note.id);
+        })
+        .catch(e => {
+          alert(e.message);
+        });
     }
   },
   mounted() {

@@ -16,10 +16,8 @@
                   <v-icon>cloud_download</v-icon>
                 </a>
               </v-btn>
-              <v-btn flat icon color="error" v-if="showDelete">
-                <a style="text-decoration: none">
-                  <v-icon>delete</v-icon>
-                </a>
+              <v-btn flat icon color="error" @click="$emit('delete', note)" v-if="showDelete">
+                <v-icon>delete</v-icon>
               </v-btn>
             </v-layout>
           </v-card-text>
