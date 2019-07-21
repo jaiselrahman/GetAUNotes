@@ -1,9 +1,9 @@
 <template>
   <v-app id="app">
     <div id="nav">
-      <v-toolbar dense dark color="primary">
+      <v-toolbar dark color="primary">
         <v-toolbar-icon>
-          <v-btn v-if="$route.name == 'groups'" @click="$router.go(-1)" icon>
+          <v-btn v-if="$route.name !== 'home'" @click="$router.go(-1)" icon>
             <v-icon>arrow_back</v-icon>
           </v-btn>
           <v-btn v-else title="Home" flat icon to="/">
@@ -15,7 +15,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn title="Upload" flat icon to="/upload" v-if="$route.path == '/'">
+          <v-btn title="Upload" flat icon to="/upload">
             <v-icon>cloud_upload</v-icon>
           </v-btn>
           <v-btn title="Signout" flat icon @click="signOut" v-if="isSignedIn">

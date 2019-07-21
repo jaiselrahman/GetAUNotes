@@ -41,9 +41,9 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (!currentUser && requiresAuth)
-    next('sign-in')
+    next('/sign-in')
   else if (currentUser && to.name === 'sign-in')
-    next('upload')
+    next('/upload')
   else
     next()
 })
