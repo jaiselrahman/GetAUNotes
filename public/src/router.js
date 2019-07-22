@@ -32,6 +32,11 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('./views/Search.vue'),
     }
   ]
 })

@@ -51,7 +51,8 @@ const NoteService = {
                         name: uploadTask.snapshot.metadata.name,
                         size: FileUtil.getSize(uploadTask.snapshot.metadata.size),
                         type: FileUtil.getExtension(uploadTask.snapshot.metadata.name),
-                        url: await uploadTask.snapshot.ref.getDownloadURL()
+                        url: await uploadTask.snapshot.ref.getDownloadURL(),
+                        keywords: uploadTask.snapshot.metadata.name.split(/[\s,-.()/\\]+/)
                     });
                 success();
             }
@@ -73,6 +74,9 @@ const NoteService = {
                 if (e.code !== 'storage/object-not-found') throw e;
             }
         })
+    },
+    async searchNote(q) {
+        // Implement search
     }
 }
 

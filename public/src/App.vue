@@ -15,6 +15,9 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
+          <v-btn title="Search" flat icon to="/search" v-show="$route.name !== 'search'">
+            <v-icon>search</v-icon>
+          </v-btn>
           <v-btn title="Upload" flat icon to="/upload">
             <v-icon>cloud_upload</v-icon>
           </v-btn>
