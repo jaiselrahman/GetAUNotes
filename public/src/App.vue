@@ -15,6 +15,10 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
+          <v-btn title="Notification" flat icon to="/notification">
+            <v-icon v-if="notify">notifications</v-icon>
+            <v-icon v-else>notifications_off</v-icon>
+          </v-btn>
           <v-btn title="Upload" flat icon to="/upload">
             <v-icon>cloud_upload</v-icon>
           </v-btn>
@@ -34,6 +38,7 @@ import firebase from "@/firebase";
 export default {
   data() {
     return {
+      notify: localStorage.notify,
       isSignedIn: firebase.auth().currentUser === null
     };
   },

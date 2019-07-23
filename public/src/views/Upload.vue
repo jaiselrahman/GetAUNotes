@@ -2,7 +2,7 @@
   <div>
     <v-layout justify-center column>
       <v-card-title primary-title>Select the subject to upload files</v-card-title>
-      <select-group @group-selected="onGroupSelected"></select-group>
+      <select-group :show-subject="true" @group-selected="onGroupSelected"></select-group>
       <input ref="inputUpload" type="file" @change="onFileSelected" v-show="false" multiple>
       <v-flex md8 text-xs-center>
         <v-btn

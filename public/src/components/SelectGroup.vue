@@ -1,9 +1,10 @@
 <template>
-  <v-layout row wrap pl-2 pr-2>
+  <v-layout v-bind="binding">
     <v-flex xs12 sm3 pl-1 pr-1>
       <v-select
         :items="departments"
         item-text="name"
+        item-value="id" 
         v-model="department"
         label="Select Department"
         @change="onDepartmentSelected"
@@ -14,6 +15,7 @@
       <v-select
         :items="years"
         item-text="name"
+        item-value="id" 
         v-model="year"
         label="Select Year"
         @change="onYearSelected"
@@ -24,13 +26,14 @@
       <v-select
         :items="regulations"
         item-text="name"
+        item-value="id" 
         v-model="regulation"
         label="Select Regulation"
         @change="onRegulationSelected"
         return-object
       ></v-select>
     </v-flex>
-    <v-flex xs12 sm3 pl-1 pr-1>
+    <v-flex xs12 sm3 pl-1 pr-1 v-if="showSubject">
       <v-select
         :items="subjects"
         item-text="name"
@@ -60,6 +63,10 @@ export default {
       regulations: []
     };
   },
+  props: {
+    showSubject: Boolean,
+    group: Object
+  },
   methods: {
     onDepartmentSelected() {
       this.year = null;
@@ -81,14 +88,23 @@ export default {
       );
     },
     onRegulationSelected() {
-      this.subject = null;
-      this.$emit("group-selected", null);
+      if (this.showSubject) {
+        this.subject = null;
+        this.$emit("group-selected", null);
 
-      GroupService.getSubjects(
-        this.department.id,
-        this.year.id,
-        this.regulation.id
-      ).then(subjects => (this.subjects = subjects));
+        GroupService.getSubjects(
+          this.department.id,
+          this.year.id,
+          this.regulation.id
+        ).then(subjects => (this.subjects = subjects));
+      } else {
+        const group = {
+          department: this.department.id,
+          year: this.year.id,
+          regulation: this.regulation.id
+        };
+        this.$emit("group-selected", group);
+      }
     },
     onSubjectSelected() {
       const group = {
@@ -104,6 +120,19 @@ export default {
     GroupService.getDepartments().then(
       departments => (this.departments = departments)
     );
+  },
+  computed: {
+    binding() {
+      const binding = {};
+
+      if (this.$vuetify.breakpoint.xs) {
+        binding.column = true;
+      } else {
+        binding.class = "justify-center";
+      }
+
+      return binding;
+    }
   }
 };
 </script>
