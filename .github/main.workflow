@@ -1,7 +1,7 @@
 workflow "Build and deploy on push" {
   on = "push"
   resolves = [
-    "Firebase deploy"
+    "Firebase deploy",
   ]
 }
 
@@ -34,4 +34,5 @@ action "Firebase deploy" {
   uses = "w9jds/firebase-action@master"
   needs = ["Build hosting", "Install functions dependencies"]
   args = "deploy --only functions,hosting"
+  secrets = ["FIREBASE_TOKEN"]
 }
