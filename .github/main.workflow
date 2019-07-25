@@ -1,7 +1,7 @@
 workflow "Build and deploy on push" {
   on = "push"
   resolves = [
-    "Firebase deploy",
+    "Firebase deploy"
   ]
 }
 
