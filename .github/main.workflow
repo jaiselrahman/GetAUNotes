@@ -1,7 +1,7 @@
 workflow "Build and deploy on push" {
   on = "push"
   resolves = [
-    "Firebase deploy",
+    "Firebase deploy"
   ]
 }
 
@@ -14,7 +14,7 @@ action "Build hosting" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   runs = "--prefix=public run build --modern"
   needs = [
-    "Install hosting dependencies",
+    "Install hosting dependencies"
   ]
 }
 
