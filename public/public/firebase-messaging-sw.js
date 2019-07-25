@@ -1,30 +1,37 @@
-/*
-Give the service worker access to Firebase Messaging.
-Note that you can only use Firebase Messaging here, other Firebase libraries are not available in the service worker.
-*/
-importScripts('https://www.gstatic.com/firebasejs/3.5.0/firebase-app.js')
-importScripts('https://www.gstatic.com/firebasejs/3.5.0/firebase-messaging.js')
+importScripts('https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js')
+importScripts('https://www.gstatic.com/firebasejs/6.3.0/firebase-messaging.js')
 
-/*
-Initialize the Firebase app in the service worker by passing in the messagingSenderId.
-*/
 firebase.initializeApp({
-    'messagingSenderId': '356772075988'
+    messagingSenderId: "356772075988"
 });
 
-/*
-Retrieve an instance of Firebase Messaging so that it can handle background messages.
-*/
-const messaging = firebase.messaging()
+const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function (payload) {
-    console.log('[firebase-messaging-sw.js] Received background message ', payload);
-    // Customize notification here
-    const notificationTitle = payload.title;
+    var url = location.protocol + "//" + location.host + payload.data.url
+    const notificationTitle = payload.data.title;
     const notificationOptions = {
-        body: payload.body,
-        icon: '/logo.png'
+        body: payload.data.body,
+        data: { url: url }
     };
 
     return self.registration.showNotification(notificationTitle,
         notificationOptions);
+});
+
+self.addEventListener("notificationclick", function (event) {
+    let url = event.notification.data.url;
+    event.notification.close(); // Android needs explicit close.
+    event.waitUntil(
+        clients.matchAll({ type: "window" }).then(windowClients => {
+            for (var i = 0; i < windowClients.length; i++) {
+                var client = windowClients[i];
+                if (client.url === url && "focus" in client) {
+                    return client.focus();
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow(url);
+            }
+        })
+    );
 });

@@ -34,6 +34,7 @@
 
 <script>
 import firebase from "@/firebase";
+import NotificationService from "@/data/NotificationService";
 
 export default {
   data() {
@@ -45,6 +46,10 @@ export default {
   created() {
     firebase.auth().onAuthStateChanged(u => {
       this.isSignedIn = !!u && u.currentUser !== null;
+    });
+    firebase.messaging().onMessage(event => {
+      //TODO: Notify user
+      console.log(event);
     });
   },
   methods: {
