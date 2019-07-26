@@ -31,6 +31,11 @@ const router = new Router({
       component: () => import('./views/SignIn.vue')
     },
     {
+      path: '/new-subject',
+      name: 'new-subject',
+      component: () => import('./views/NewSubject.vue')
+    },
+    {
       path: '/upload',
       name: 'upload',
       component: () => import('./views/Upload.vue'),

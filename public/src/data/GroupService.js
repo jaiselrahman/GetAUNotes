@@ -14,6 +14,16 @@ const GroupService = {
         return departments;
     },
     async getYears(departmentId) {
+        if (departmentId == null) {
+            return [
+                { id: "1", name: "1st year" },
+                { id: "2", name: "2nd year" },
+                { id: "3", name: "3rd year" },
+                { id: "4", name: "4th year" },
+                { id: "5", name: "5th year" }
+            ]
+        }
+
         let years = [];
         try {
             let yearData = await firestore.collection('department').doc(departmentId).collection('year').get();
@@ -43,6 +53,21 @@ const GroupService = {
             console.log("Error getting subject list: ", e);
         }
         return subjects;
+    },
+    async addSubjectGroup(group) {
+        var batch = firestore.batch();
+
+        var yearRef = firestore.collection('department').doc(group.department.id)
+                .collection('year').doc(group.year.id);
+        batch.set(yearRef, { name: group.year.name} );
+
+        var regRef = yearRef.collection('regulation').doc(group.regulation.id);
+        batch.set(regRef, { name: group.regulation.name });
+
+        var subRef = regRef.collection('subject').doc(group.subject.id);
+        batch.set(subRef, { name: group.subject.name });
+
+        await batch.commit();
     }
 };
 

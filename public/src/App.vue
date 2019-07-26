@@ -19,6 +19,9 @@
             <v-icon v-if="notify">notifications</v-icon>
             <v-icon v-else>notifications_off</v-icon>
           </v-btn>
+          <v-btn title="New Subject" flat icon to="/new-subject" v-if="$route.name === 'upload'">
+            <v-icon>add</v-icon>
+          </v-btn>
           <v-btn title="Upload" flat icon to="/upload">
             <v-icon>cloud_upload</v-icon>
           </v-btn>
@@ -29,18 +32,35 @@
       </v-toolbar>
     </div>
     <router-view :is-signed-in="isSignedIn" :key="$route.path"/>
+
+    <v-snackbar
+      v-model="showNotification"
+      color="info"
+      :timeout="3000"
+      :bottom="true"
+      :multi-line="true"
+    >
+      {{ notification.title }}
+      <br>
+      {{ notification.body }}
+      <v-btn flat @click="showNotification = false">Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import firebase from "@/firebase";
-import NotificationService from "@/data/NotificationService";
 
 export default {
   data() {
     return {
       notify: localStorage.notify,
-      isSignedIn: firebase.auth().currentUser === null
+      isSignedIn: firebase.auth().currentUser === null,
+      showNotification: false,
+      notification: {
+        title: "",
+        body: ""
+      }
     };
   },
   created() {
@@ -48,8 +68,12 @@ export default {
       this.isSignedIn = !!u && u.currentUser !== null;
     });
     firebase.messaging().onMessage(event => {
-      //TODO: Notify user
       console.log(event);
+      this.notification = {
+        title: event.data.title,
+        body: event.data.body
+      };
+      this.showNotification = true;
     });
   },
   methods: {
