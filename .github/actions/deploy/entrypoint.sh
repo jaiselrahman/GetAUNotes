@@ -24,6 +24,6 @@ echo "Build production version"
 npm run build --modern
 
 echo "Deploying to Firebase hosting"
-firebase --debug deploy --only hosting
+firebase deploy --only hosting
 
 echo "Deployment succesful!"
