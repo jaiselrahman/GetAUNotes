@@ -11,7 +11,7 @@
           </v-btn>
         </v-toolbar-icon>
         <v-toolbar-title pa-3 v-ripple>
-          <router-link pa-3 style="color: inherit;text-decoration: inherit;" to="/">ShareNotes</router-link>
+          <router-link pa-3 style="color: inherit;text-decoration: inherit;" to="/">GetAUNotes</router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>

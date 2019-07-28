@@ -1,4 +1,4 @@
-# sharenotes
+# GetAUNotes
 
 ## Project setup
 ```

@@ -1,6 +1,6 @@
 {
-  "name": "ShareNotes",
-  "short_name": "sharenotes",
+  "name": "GetAUNotes",
+  "short_name": "GetAUNotes",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
