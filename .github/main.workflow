@@ -7,5 +7,5 @@ workflow "Build and deploy on push" {
 
 action "Deploy" {
   uses = "./.github/actions/deploy"
-  secrets = ["FIREBASE_TOKEN"]
+  secrets = ["FIREBASE_TOKEN", "FIREBASE_CONFIG"]
 }
