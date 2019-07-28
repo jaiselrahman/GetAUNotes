@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.jaiselrahman.getaunotes",
+    "sha256_cert_fingerprints":
+    ["9F:31:80:B5:12:D6:30:E2:C2:E2:FA:7A:09:F9:45:6D:99:78:FF:1A:89:A1:15:C8:BE:14:7C:BF:1B:A2:FE:46"]
+  }
+}]
