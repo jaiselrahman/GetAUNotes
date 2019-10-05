@@ -13,7 +13,6 @@ npm install -g firebase-tools
 echo "Firebase hosting"
 cd public
 
-
 echo "Creating firebaseConfig.js file"
 echo $FIREBASE_CONFIG >> src/firebaseConfig.js
 
