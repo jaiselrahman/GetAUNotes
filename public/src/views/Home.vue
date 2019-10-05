@@ -37,7 +37,7 @@ export default {
     return {
       groups: null,
       notes: null,
-      basePath: "/n",
+      basePath: "/n"
     };
   },
   methods: {
@@ -86,11 +86,6 @@ export default {
   },
   mounted() {
     this.loadData(this.$route.params);
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.loadData(to.params).then(() => {
-      next();
-    });
   }
 };
 </script>
