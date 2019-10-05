@@ -1,14 +1,11 @@
 <template>
   <v-container>
-    <v-layout v-show="loading" justify-center align-center fill-height>
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    </v-layout>
     <v-layout justify-center>
       <v-flex
         xs12
         sm8
         md6
-        v-show="!loading && (!groups || groups.length == 0) && (!notes || notes.length == 0)"
+        v-show="!$global.loading && (!groups || groups.length == 0) && (!notes || notes.length == 0)"
       >
         <v-card text-xs-center>
           <v-card-title primary-title>Nothing Found!</v-card-title>
@@ -41,12 +38,11 @@ export default {
       groups: null,
       notes: null,
       basePath: "/n",
-      loading: false
     };
   },
   methods: {
     loadData(group) {
-      this.loading = true;
+      this.$global.loading = true;
       this.groups = null;
       let load;
       if (group.dep == null) {
@@ -70,12 +66,12 @@ export default {
         };
         return NoteService.getNotes(g).then(notes => {
           this.notes = notes;
-          this.loading = false;
+          this.$global.loading = false;
         });
       }
       return load(group.dep, group.year, group.reg).then(groups => {
         this.groups = groups;
-        this.loading = false;
+        this.$global.loading = false;
       });
     },
     deleteNote(note) {

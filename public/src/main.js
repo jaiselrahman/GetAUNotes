@@ -10,6 +10,20 @@ Vue.config.productionTip = false
 
 let app;
 
+let global = new Vue({
+  data: {
+    loading: false
+  }
+});
+
+global.install = function() {
+  Object.defineProperty(Vue.prototype, '$global', {
+    get() { return global; }
+  });
+}
+
+Vue.use(global);
+
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     app = new Vue({

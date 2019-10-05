@@ -31,7 +31,16 @@
         </v-toolbar-items>
       </v-toolbar>
     </div>
-    <router-view :is-signed-in="isSignedIn" :key="$route.path"/>
+
+    <v-layout key="progress" v-show="$global.loading" justify-center align-center fill-height full-width>
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </v-layout>
+
+    <router-view
+      v-show="!$global.loading"
+      :is-signed-in="isSignedIn"
+      :key="$route.path"
+    />
 
     <v-snackbar
       v-model="showNotification"
@@ -68,7 +77,6 @@ export default {
       this.isSignedIn = !!u && u.currentUser !== null;
     });
     firebase.messaging().onMessage(event => {
-      console.log(event);
       this.notification = {
         title: event.data.title,
         body: event.data.body
