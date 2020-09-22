@@ -1,6 +1,6 @@
 import firebase from '@/firebase';
 
-const messaging = firebase.messaging();
+const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null;
 const functions = firebase.functions();
 
 let localStorage;
@@ -8,6 +8,9 @@ let localStorage;
 const NotificationService = {
     use(_localStorage) {
         localStorage = _localStorage;
+    },
+    isSupported() {
+        return messaging !== null;
     },
     async requestPermission() {
         try {

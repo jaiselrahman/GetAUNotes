@@ -1,10 +1,19 @@
 <template>
   <v-container>
-    <select-group @group-selected="onGroupSelected"></select-group>
-    <v-layout justify-center>
-      <v-btn color="primary" :disabled="!group" v-if="subscribed" @click="unsubscribe">Unsubscribe</v-btn>
-      <v-btn color="primary" :disabled="!group" v-else @click="subscribe">Subscribe</v-btn>
+    <v-layout justify-center v-if="!isSupported">
+      <v-flex xs12 sm8 md6>
+        <v-card>
+          <v-card-title primary-title>Notification not supported!</v-card-title>
+        </v-card>
+      </v-flex>
     </v-layout>
+    <v-container v-else>
+        <select-group @group-selected="onGroupSelected"></select-group>
+        <v-layout justify-center>
+          <v-btn color="primary" :disabled="!group" v-if="subscribed" @click="unsubscribe">Unsubscribe</v-btn>
+          <v-btn color="primary" :disabled="!group" v-else @click="subscribe">Subscribe</v-btn>
+        </v-layout>
+    </v-container>
   </v-container>
 </template>
 
@@ -17,11 +26,12 @@ NotificationService.use(localStorage);
 export default {
   name: "Notification",
   components: {
-    SelectGroup
+    SelectGroup,
   },
   data() {
     return {
-      group: null
+      group: null,
+      isSupported: NotificationService.isSupported(),
     };
   },
   methods: {
@@ -35,7 +45,7 @@ export default {
             console.log("SubscribeTo ", this.group);
           });
         })
-        .catch(e => {
+        .catch((e) => {
           alert(
             "Notification blocked! You can enable them from browser settings"
           );
@@ -45,7 +55,7 @@ export default {
       NotificationService.unsubscribeFrom(this.group).then(() => {
         console.log("UnSubscribeFrom ", this.group);
       });
-    }
+    },
   },
   mounted() {},
   computed: {
@@ -53,7 +63,7 @@ export default {
       if (!this.group) return false;
 
       let subscribedGroup = NotificationService.getSubscribedGroup();
-      
+
       if (!subscribedGroup) return false;
 
       return (
@@ -61,7 +71,7 @@ export default {
         subscribedGroup.year === this.group.year &&
         subscribedGroup.regulation === this.group.regulation
       );
-    }
-  }
+    },
+  },
 };
 </script>

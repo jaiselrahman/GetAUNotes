@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "getaunotes"
+    "default": "getaunotes",
+    "getaunotes": "getaunotes",
+    "production": "getaunotes"
   }
 }
